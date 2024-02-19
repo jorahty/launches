@@ -1,0 +1,95 @@
+html {
+  color-scheme: dark light;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 550px;
+  box-sizing: border-box;
+  background: #7772;
+}
+
+main {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+h2 {
+  margin: 0;
+  padding: 20px 0;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  gap: 8px;
+}
+
+.avatar {
+  background: #7775;
+  padding: 5px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.provider,
+.title {
+  font-weight: 600;
+}
+
+.vehicle,
+.location,
+.time {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.vehicle {
+  gap: 6px;
+}
+
+.avatar {
+  width: 160px;
+}
+
+.info {
+  width: 100%;
+}
+
+.location,
+.time {
+  opacity: 0.7;
+}
+
+a {
+  text-decoration: none;
+}

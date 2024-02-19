@@ -1,95 +1,69 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+async function fetchLaunches() {
+  const response = await fetch('https://fdo.rocketlaunch.live/json/launches/next/5');
+  const data = await response.json();
+  const launches = data.result;
+  return launches;
+}
 
-export default function Home() {
+export default async function Home() {
+  const launches = await fetchLaunches();
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main>
+      <div>
+        <h2>Upcoming Launches</h2>
+        <div className="list">
+          {launches.map((launch: any) => {
+            const place = launch.pad.location.statename ?? launch.pad.location.country;
+            const location = `${place} • ${launch.pad.location.name}`;
+            let time = `${launch.date_str}`;
+            if (launch.t0) {
+              const date = new Date(launch.t0);
+              time += ` • ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
+            }
+            return (
+              <LaunchCard
+                provider={launch.provider.name}
+                vehicle={launch.vehicle.name}
+                title={launch.name}
+                location={location}
+                time={time}
+              />
+            );
+          })}
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <p>
+        Data by <a href="https://www.rocketlaunch.live/api">RocketLaunch.Live</a>.
+      </p>
     </main>
+  );
+}
+
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import PlaceIcon from '@mui/icons-material/Place';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+
+function LaunchCard({ provider, vehicle, title, location, time }: any) {
+  return (
+    <div className="card">
+      <div className="avatar">
+        <div className="provider">{provider}</div>
+        <div className="vehicle">
+          <RocketLaunchIcon fontSize="small" />
+          <div>{vehicle}</div>
+        </div>
+      </div>
+      <div className="info">
+        <div className="title">{title}</div>
+        <div className="location">
+          <PlaceIcon fontSize="small" />
+          <div>{location}</div>
+        </div>
+        <div className="time">
+          <AccessTimeIcon fontSize="small" />
+          <div>{time}</div>
+        </div>
+      </div>
+    </div>
   );
 }
