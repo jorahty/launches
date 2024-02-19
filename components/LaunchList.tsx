@@ -15,6 +15,7 @@ export async function LaunchList() {
         }
         return (
           <LaunchCard
+            key={launch.id}
             provider={launch.provider.name}
             vehicle={launch.vehicle.name}
             title={launch.name}
