@@ -1,8 +1,8 @@
-import { fetchLaunches } from '@/lib/fetchLaunches';
+'use client';
+
 import { LaunchCard } from '@/components/LaunchCard';
 
-export async function LaunchList() {
-  const launches = await fetchLaunches();
+export function LaunchList({ launches }: { launches: any[] }) {
   return (
     <div className="list">
       {launches.map((launch: any) => {
